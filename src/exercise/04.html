@@ -8,16 +8,36 @@
   <script src="https://unpkg.com/@babel/standalone@7.9.3/babel.js"></script>
   <script type="text/babel">
     // 🐨 Make a function called `message` which returns the JSX we want to share
-
+    function Message({message,subject}){
+      return(
+        <div className="message">{message}, {subject}</div>
+      )
+    }
+    Message.propTypes  = {
+      subject(props, propName, componentName){
+        console.log(props, propName, componentName);
+        const type = typeof props[propName];
+        console.log(type);
+        if(typeof props.subject === 'number'){
+          return new Error(`Can't be a number, bro`);
+        }
+        if(!props.subject){
+          return new Error(`Gotta have content in subject, bro`);
+        }
+      }
+    } 
     // 🐨 use that function in place of the divs below with:
     // 💰 {message({children: 'Hello World'})} {message({children: 'Goodbye World'})}
+    // <div className="message">Hello World</div>
+    // <div className="message">Goodbye World</div>
     const element = (
       <div className="container">
-        <div className="message">Hello World</div>
-        <div className="message">Goodbye World</div>
+        <Message message="Hello World" subject={4}/>
+        <Message message="Goodbye World" />
       </div>
     )
 
+   
     // 💯 This is only the first step to making actual React components. The rest is in the extra credit!
     ReactDOM.render(element, document.getElementById('root'))
   </script>
